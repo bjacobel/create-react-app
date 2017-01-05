@@ -1,0 +1,33 @@
+language: node_js
+node_js:
+  - 6
+cache: yarn
+env:
+  global:
+    - NODE_ENV=test
+    - PATH=$PATH:$HOME/.local/bin
+script:
+  - $(yarn bin)/eslint .
+  - $(yarn bin)/stylelint src/stylesheets/*.css
+  - yarn test -- --coverage
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+before_deploy:
+  - NODE_ENV=production $(yarn bin)/webpack
+  - pip install --user awscli
+deploy:
+  provider: s3
+  region: us-east-1
+  bucket: $(node config ProjectFQDomain)
+  acl: public_read
+  local_dir: dist
+  skip_cleanup: true
+  on:
+    branch:
+      - master
+    condition: $(node aws/utils bucketExists) = "true"
+after_deploy:
+  - node aws/utils invalidate
+notifications:
+  email: false
+  slack: bjacobel:xasDl3nTxo2feJGba70E43oR
