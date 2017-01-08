@@ -10,6 +10,13 @@
 // @remove-on-eject-end
 
 var autoprefixer = require('autoprefixer');
+var precss = require('precss');
+var stylelint = require('stylelint');
+var fontMagician = require('postcss-font-magician')({
+  // this is required due to a weird bug where if we let PFM use the `//` protocol Webpack style-loader
+  // thinks it's a relative URL and won't load the font when sourceMaps are also enabled
+  protocol: 'https:',
+});
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -32,6 +39,9 @@ var publicPath = '/';
 var publicUrl = '';
 // Get environment variables to inject into our app.
 var env = getClientEnvironment(publicUrl);
+
+// CSS Modules config
+var cssLoaderConfig = 'modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]';
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -163,7 +173,7 @@ module.exports = {
       // in development "style" loader enables hot editing of CSS.
       {
         test: /\.css$/,
-        loader: 'style!css?importLoaders=1!postcss'
+        loader: `style!css?sourceMap&${cssLoaderConfig}!postcss`
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -191,6 +201,9 @@ module.exports = {
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
+      stylelint,
+      fontMagician,
+      precss,
       autoprefixer({
         browsers: [
           '>1%',

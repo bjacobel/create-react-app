@@ -10,6 +10,13 @@
 // @remove-on-eject-end
 
 var autoprefixer = require('autoprefixer');
+var precss = require('precss');
+var stylelint = require('stylelint');
+var fontMagician = require('postcss-font-magician')({
+  // this is required due to a weird bug where if we let PFM use the `//` protocol Webpack style-loader
+  // thinks it's a relative URL and won't load the font when sourceMaps are also enabled
+  protocol: 'https:',
+});
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -51,6 +58,9 @@ var publicPath = ensureSlash(homepagePathname, true);
 var publicUrl = ensureSlash(homepagePathname, false);
 // Get environment variables to inject into our app.
 var env = getClientEnvironment(publicUrl);
+
+// CSS Modules config
+var cssLoaderConfig = 'modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]';
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
@@ -172,7 +182,7 @@ module.exports = {
       // in the main CSS file.
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css?importLoaders=1!postcss')
+        loader: ExtractTextPlugin.extract('style', `css?${cssLoaderConfig}!postcss`)
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
@@ -203,6 +213,9 @@ module.exports = {
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
+      stylelint,
+      fontMagician,
+      precss,
       autoprefixer({
         browsers: [
           '>1%',
