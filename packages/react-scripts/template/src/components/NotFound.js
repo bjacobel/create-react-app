@@ -8,7 +8,7 @@ export default class NotFound extends Component {
   render() {
     return (
       <div>
-        <h1 className={ styles['not-found'] }>404: page not found</h1>
+        <h1 className={ styles.notFound }>404: page not found</h1>
         <Link className={ link } to="/">Home</Link>
       </div>
     );

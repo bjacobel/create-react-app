@@ -1,4 +1,5 @@
-.not-found {
+.notFound {
   composes: center from './shared.css';
   composes: open-sans from './shared.css';
+  font-size: 16pt;
 }
