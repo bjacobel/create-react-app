@@ -240,7 +240,7 @@ function checkNodeVersion(packageName) {
 
 function checkAppName(appName) {
   // TODO: there should be a single place that holds the dependencies
-  var dependencies = ['react', 'react-dom'];
+  var dependencies = ['react', 'react-dom', 'react-redux', 'react-router', 'redux', 'redux-thunk'];
   var devDependencies = ['react-scripts'];
   var allDependencies = dependencies.concat(devDependencies).sort();
 

@@ -58,7 +58,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
     }
   });
 
-  // Run yarn or npm for react and react-dom
+  // Run yarn or npm for dependencies
   // TODO: having to do two npm/yarn installs is bad, can we avoid it?
   var command;
   var args;
@@ -74,9 +74,9 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
       verbose && '--verbose'
     ].filter(function(e) { return e; });
   }
-  args.push('react', 'react-dom');
+  args.push('react', 'react-dom', 'react-redux', 'react-router', 'redux', 'redux-thunk');
 
-  console.log('Installing react and react-dom using ' + command + '...');
+  console.log('Installing dependencies using ' + command + '...');
   console.log();
 
   var proc = spawn(command, args, {stdio: 'inherit'});

@@ -23,10 +23,17 @@ module.exports = (resolve, rootDir, isEjecting) => {
     collectCoverageFrom: ['src/**/*.{js,jsx}'],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
+    snapshotSerializers: [
+      "enzyme-to-json/serializer"
+    ],
     testPathIgnorePatterns: [
       '<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]'
     ],
     testEnvironment: 'node',
+    testPathDirs: [
+      './tests'
+    ],
+    testRegex: 'tests/.*/.*-test.js$',
     testURL: 'http://localhost',
     transform: {
       '^.+\\.(js|jsx)$': isEjecting ?
