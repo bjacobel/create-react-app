@@ -13,6 +13,3 @@ script: tasks/e2e.sh
 env:
   - USE_YARN=no
   - USE_YARN=yes
-notifications:
-  email: false
-  slack: bjacobel:xasDl3nTxo2feJGba70E43oR
