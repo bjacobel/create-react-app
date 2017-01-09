@@ -13,7 +13,9 @@ var spawn = require('cross-spawn');
 var chalk = require('chalk');
 
 module.exports = function(appPath, appName, verbose, originalDirectory) {
-  var ownPackageName = require(path.join(__dirname, '..', 'package.json')).name;
+  var ownPackage = require(path.join(__dirname, '..', 'package.json'))
+  var ownPackageName = ownPackage.name;
+  var ownPackageDeps = ownPackage.devDependencies;
   var ownPath = path.join(appPath, 'node_modules', ownPackageName);
   var appPackage = require(path.join(appPath, 'package.json'));
   var useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
@@ -74,7 +76,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
       verbose && '--verbose'
     ].filter(function(e) { return e; });
   }
-  args.push('react', 'react-dom', 'react-redux', 'react-router', 'redux', 'redux-thunk');
+  args.push.apply(args, Object.keys(ownPackageDeps).map(depName => depName + '@' + ownPackageDeps[depName]));
 
   console.log('Installing dependencies using ' + command + '...');
   console.log();
