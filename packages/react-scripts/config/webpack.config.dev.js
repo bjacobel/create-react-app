@@ -40,9 +40,6 @@ var publicUrl = '';
 // Get environment variables to inject into our app.
 var env = getClientEnvironment(publicUrl);
 
-// CSS Modules config
-var cssLoaderConfig = 'modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]';
-
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
@@ -173,7 +170,7 @@ module.exports = {
       // in development "style" loader enables hot editing of CSS.
       {
         test: /\.css$/,
-        loader: `style!css?sourceMap&${cssLoaderConfig}!postcss`
+        loader: 'style!css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss'
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -201,7 +198,9 @@ module.exports = {
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
-      stylelint,
+      stylelint({
+        configFile: path.join(__dirname, '../.stylelintrc'),
+      }),
       fontMagician,
       precss,
       autoprefixer({

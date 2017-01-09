@@ -13,7 +13,7 @@ const store = createStore(reducer, {}, composeEnhancers(
   applyMiddleware(...[thunk]),
 ));
 
-const rootEl = document.getElementById('main');
+const rootEl = document.getElementById('root');
 const render = () => {
   // See here for explanation of why this require() is needed:
   // https://github.com/reactjs/redux/pull/1455/files#r54380102

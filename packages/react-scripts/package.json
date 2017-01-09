@@ -13,6 +13,7 @@
   "files": [
     ".babelrc",
     ".eslintrc",
+    ".stylelintrc",
     "bin",
     "config",
     "scripts",

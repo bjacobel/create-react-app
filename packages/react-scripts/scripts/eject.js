@@ -90,6 +90,7 @@ prompt(
   var appPackage = require(path.join(appPath, 'package.json'));
   var babelConfig = JSON.parse(fs.readFileSync(path.join(ownPath, '.babelrc'), 'utf8'));
   var eslintConfig = JSON.parse(fs.readFileSync(path.join(ownPath, '.eslintrc'), 'utf8'));
+  var stylelintConfig = JSON.parse(fs.readFileSync(path.join(ownPath, '.stylelintrc'), 'utf8'));
 
   console.log(cyan('Updating the dependencies'));
   var ownPackageName = ownPackage.name;
