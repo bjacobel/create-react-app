@@ -138,6 +138,10 @@ prompt(
   console.log('  Adding ' + cyan('ESLint') +' configuration');
   appPackage.eslintConfig = eslintConfig;
 
+  // Add Stylelint config
+  console.log('  Adding ' + cyan('Stylelint') +' configuration');
+  appPackage.stylelint = stylelintConfig;
+
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
     JSON.stringify(appPackage, null, 2)

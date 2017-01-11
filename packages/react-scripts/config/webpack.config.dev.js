@@ -20,15 +20,11 @@ var fontMagician = require('postcss-font-magician')({
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+var path = require('path');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
-
-// @remove-on-eject-begin
-// `path` is not used after eject - see https://github.com/facebookincubator/create-react-app/issues/1174
-var path = require('path');
-// @remove-on-eject-end
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -195,12 +191,9 @@ module.exports = {
     useEslintrc: false
   },
   // @remove-on-eject-end
-  // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
-      stylelint({
-        configFile: path.join(__dirname, '../.stylelintrc'),
-      }),
+      stylelint,
       fontMagician,
       precss,
       autoprefixer({
